@@ -20,6 +20,16 @@ const verifyCallback = (username, password, callback) => {
         .catch(err => callback(err))
 
 }
-const strategy = new LocalStrategy(verifyCallback)
+const strategy = new LocalStrategy(customFields, verifyCallback)
 
 passport.use(strategy);
+
+passport.serializeUser((user, cb) => {
+    cb(null, user.id)
+})
+
+passport.deserializeUser((userId, cb) => {
+    User.findById(userId).then(user => {
+        cb(null, user)
+    }).catch(err => cb(err))
+})
