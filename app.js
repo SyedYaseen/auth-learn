@@ -6,9 +6,12 @@ let routes = require('./routes');
 const connection = require('./config/database');
 
 const MongoStore = require('connect-mongo')
+// This line pulls the app.use statement inside that passport config file
+// and makes it accessible here
+require('./config/passport');
+
 require('dotenv').config();
 const app = express()
-
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -30,12 +33,11 @@ app.use(session({
     }
 }))
 
-app.use(function printSessions(req, res, next) {
-    if(req.session.count) req.session.count+=1
-    else req.session.count = 1
-
-    next()
-})
+// Best to initialize the passport middleware each time we are going
+// into a route. The session might expire or since we would be using multiple routes
+// we want to reinitialize this middleware each time.
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(routes)
 
