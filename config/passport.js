@@ -3,6 +3,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const connection = require('./database');
 const { validPassword } = require('../lib/passwordUtils');
 const User = connection.models.User;
+const customFields = {
+    usernameField: 'uname',
+    passwordField: 'pw'
+};
 
 // callback below is where I would send the result of the 
 // authentication
@@ -15,9 +19,7 @@ const verifyCallback = (username, password, callback) => {
                 return callback(null, user)
             else 
                 return callback(null, false)
-            
-        })
-        .catch(err => callback(err))
+        }).catch(err => callback(err))
 
 }
 const strategy = new LocalStrategy(customFields, verifyCallback)
@@ -30,6 +32,7 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser((userId, cb) => {
     User.findById(userId).then(user => {
+        console.log(user);
         cb(null, user)
     }).catch(err => cb(err))
 })
