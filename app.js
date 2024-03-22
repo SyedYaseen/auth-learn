@@ -34,10 +34,16 @@ app.use(
     },
   })
 )
+/*
+  Best to initialize the passport middleware each time we are going
+  into a route. The session might expire or since we would be using multiple routes
+  we want to reinitialize this middleware each time.
 
-// Best to initialize the passport middleware each time we are going
-// into a route. The session might expire or since we would be using multiple routes
-// we want to reinitialize this middleware each time.
+  Process:
+  1. Check if user is logged in by checking in the session (session.passport.user)
+  2. Deserialize and get user id and check if its found in db
+  3. Attach the user to the request
+*/
 app.use(passport.initialize())
 app.use(passport.session())
 
