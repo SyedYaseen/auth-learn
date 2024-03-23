@@ -63,7 +63,7 @@ We flip whats used in encrypting data. Here ew encrpyt with pub key and decrypt 
 
 <mark> Note: Never put confidential data in place that we are digitally signing </mark>
 
-### Code Walkthough for document signing:
+### Code Walkthough for document signing or verifying identities:
 
 1. Convert data to send as hex
 2. Hash the data with sha256 or other
