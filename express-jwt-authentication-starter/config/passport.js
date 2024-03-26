@@ -1,8 +1,8 @@
 const fs = require("fs")
 const path = require("path")
 const User = require("mongoose").model("User")
-const { ExtractJwt, JwtStrategy } = require("passport-jwt")
-
+const ExtractJwt = require("passport-jwt").ExtractJwt
+const JwtStrategy = require("passport-jwt").Strategy
 const pathToKey = path.join(__dirname, "..", "id_rsa_pub.pem")
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8")
 
