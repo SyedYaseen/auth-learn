@@ -1,7 +1,7 @@
 require("dotenv").config()
 const GoogleStrategy = require("passport-google-oauth2").Strategy
 const passport = require("passport")
-var db = require("./db")
+const User = require("mongoose").model("User")
 
 const options = {
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -18,10 +18,19 @@ passport.use(
     profile,
     done
   ) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      console.log(err)
-      return done(err, user)
-    })
+    console.log(accessToken, refreshToken, profile)
+    User.findOne({ googleId: profile.id })
+      .then((user) => {
+        if (!user) {
+          let user = new User()
+          user.googleId = profile.id
+          user.save()
+          return done(null, user)
+        } else return done(null, user)
+      })
+      .catch((err) => {
+        done(err, false)
+      })
   })
 )
 

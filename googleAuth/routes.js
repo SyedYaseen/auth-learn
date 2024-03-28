@@ -22,9 +22,15 @@ router.get(
 )
 
 router.get("/auth/google/success", (req, res, next) => {
-  res.send("Success")
+  res.send("Success <br> <a href='/logout'>Logout</a>")
 })
 
+router.get("/logout", (req, res, next) => {
+  req.logOut((err) => {
+    if (err) return next(err)
+    else res.redirect("/")
+  })
+})
 router.get("/auth/google/failure", (req, res, next) => {
   res.send("failure")
 })
