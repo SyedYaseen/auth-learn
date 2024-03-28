@@ -4,7 +4,9 @@ require("dotenv").config()
 
 router.get("/", (req, res, next) => {
   res.send(
-    "<a class='button google' href='/auth/google'>Sign in with Google</a>"
+    `<a class='button google' href='/auth/google'>Sign in with Google</a>
+    ${req.user}
+    `
   )
 })
 
@@ -22,7 +24,7 @@ router.get(
 )
 
 router.get("/auth/google/success", (req, res, next) => {
-  res.send("Success <br> <a href='/logout'>Logout</a>")
+  res.send(`Success <br> ${req.user} <a href='/logout'>Logout</a>`)
 })
 
 router.get("/logout", (req, res, next) => {

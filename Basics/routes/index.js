@@ -82,7 +82,7 @@ router.get("/admin-only", isAuth, isAdmin, (req, res, next) => {
 })
 
 // Visiting this route logs the user out
-router.get("/logout", (req, res, next) => {
+router.post("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err)
     res.redirect("/login")
